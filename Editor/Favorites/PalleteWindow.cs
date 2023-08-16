@@ -11,24 +11,15 @@ public class PaletteWindow : EditorWindow
     private Object[] recentObjects;
     private static List<Object> favoriteObjects = new List<Object>();
     static string[] saveProfileList = new string[1];
+  
+    
+    
+    
     [MenuItem("Window/Palette")]
     public static void ShowWindow()
     {
         GetWindow<PaletteWindow>("Palette");
-
-
-
         LoadSaveFileOrCreate();
-        // saveProfileList = new string[favoritesData.GetProfileList().Count];
-        // selected = favoritesData.GetProfileList().Count - 1;
-
-        // saveProfileList = favoritesData.GetProfileList().ToArray();
-
-        // favoriteObjects = new List<Object>();//
-
-        // string profileToLoad = saveProfileList[saveProfileList.Length - 1];
-        // Debug.Log(profileToLoad);
-        // favoriteObjects = favoritesData.LoadProfile(profileToLoad);
     }
 
 
@@ -36,21 +27,19 @@ public class PaletteWindow : EditorWindow
 
     private void OnEnable() //
     {
-        // Load recent and favorite objects from EditorPrefs
-        // LoadRecentObjects();
         LoadSaveFileOrCreate();
-
-        // favoriteObjects = new List<Object>();//
-
-        // saveProfileList = new string[favoritesData.GetProfileList().Count];
-        // saveProfileList = favoritesData.GetProfileList().ToArray();
     }
+
+
+    
     static int selected = 0;
     private static FavoriteData_SO favoritesData;
     private bool showPopup;
     private string currentFavoriteProfileName;
     private string currentProfileNew_Name; //in case the file name changed
     Vector2 scrollPosition = Vector2.zero;
+  
+    
     private void OnGUI()
     {
 
@@ -182,19 +171,19 @@ public class PaletteWindow : EditorWindow
 
         if (currentEvent.type == EventType.DragUpdated || currentEvent.type == EventType.DragPerform)
         {
-            // Check if the dragged object can be accepted
+          
             if (DragAndDrop.objectReferences.Length > 0)
             {
                 DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
 
-                // Check if the object is being dropped onto the window
+               
                 if (currentEvent.type == EventType.DragPerform)
                 {
                     DragAndDrop.AcceptDrag();
 
                     foreach (Object draggedObject in DragAndDrop.objectReferences)
                     {
-                        // Add the dragged object to favorites
+
                         favoriteObjects.Add(draggedObject);
                     }
 
@@ -223,6 +212,9 @@ public class PaletteWindow : EditorWindow
         // SaveFavoriteObjects();
     }
 
+
+
+    
     private void LoadRecentObjects()
     {
         recentObjects = new Object[recentCount];
@@ -338,14 +330,14 @@ public class PaletteWindow : EditorWindow
             PaletteWindow paletteWindow = GetWindow<PaletteWindow>("Palette");
             if (favoriteObjects != null)
             {
-                // Check if the selected object is already in favorites
+              
                 bool alreadyAdded = false;
                 for (int i = 0; i < favoriteObjects.Count; i++)
                 {
                     GameObject favoriteObject = favoriteObjects[i] as GameObject;
                     if (favoriteObject == selectedObject)
                     {
-                        favoriteObjects[i] = null; // Remove the object from favorites
+                        favoriteObjects[i] = null;
                         alreadyAdded = true;
                         break;
                     }
@@ -353,7 +345,7 @@ public class PaletteWindow : EditorWindow
 
                 if (!alreadyAdded)
                 {
-                    // Find an empty slot in favorites
+                   
                     int emptySlotIndex = -1;
                     for (int i = 0; i < favoriteObjects.Count; i++)
                     {
@@ -364,7 +356,6 @@ public class PaletteWindow : EditorWindow
                         }
                     }
 
-                    // If no empty slot is found, replace the first favorite
                     if (emptySlotIndex == -1)
                         emptySlotIndex = 0;
 
@@ -382,7 +373,7 @@ public class PaletteWindow : EditorWindow
     private static void LoadSaveFile()//
     {
 
-        // Check if a FavoritesData asset exists in the current folder
+     
         string[] guids = AssetDatabase.FindAssets("FavoritesDataSavefile");
         if (guids.Length > 1) Debug.LogError("multiple save containers found");
         if (guids.Length > 0)
